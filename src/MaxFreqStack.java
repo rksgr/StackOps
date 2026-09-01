@@ -11,9 +11,7 @@ If there is a tie for the most frequent element, the element closest to the stac
 
  */
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 class MaxFreqStack {
 
@@ -45,14 +43,40 @@ class MaxFreqStack {
         // Iterate over the hashmap
         Set<Integer> keySet = freqMap.keySet();
         int maxFreq = -1;
+        List<Integer> maxFreqElemList = new ArrayList<>();
+        int maxFreqElem = 0;
         for(int key:keySet){
             int val = freqMap.get(key);
-            if(val > maxFreq){
+
+            if(val >= maxFreq){
                maxFreq = val;
+                maxFreqElem = key;
             }
         }
 
-        return -1;
+        // remove this element with highest frequency
+        // Find element which is closest to top
+        Node topElem = this.head;
+        while(topElem != null){
+            topElem = topElem.next;
+        }
+        freqMap.remove(maxFreqElem);
+        return maxFreqElem;
+    }
+
+    static void main() {
+        MaxFreqStack mfs = new MaxFreqStack();
+        mfs.push(5);
+        mfs.push(7);
+        mfs.push(5);
+        mfs.push(7);
+        mfs.push(4);
+        mfs.push(5);
+        int val1 = mfs.pop();
+        int val2 = mfs.pop();
+        int val3 = mfs.pop();
+        int val4 = mfs.pop();
+        System.out.println(val1+ " " + val2 + " "+ val3 + " " + val4);
     }
 }
 class Node{
