@@ -10,7 +10,7 @@ int pop() removes and returns the most frequent element in the stack.
 If there is a tie for the most frequent element, the element closest to the stack's top is removed and returned.
 
  */
-
+// last line logic yet to be understood
 import java.util.*;
 class LinkedListPractice{
     static void main() {
