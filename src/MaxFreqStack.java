@@ -12,82 +12,56 @@ If there is a tie for the most frequent element, the element closest to the stac
  */
 
 import java.util.*;
+class LinkedListPractice{
+    static void main() {
+        LinkedList<Integer> llInt = new LinkedList<>();
+        llInt.add(10);
+        llInt.add(20);
+        llInt.add(30);
+        llInt.addFirst(40);
+        System.out.println(llInt);
+    }
+}
 
 class MaxFreqStack {
 
-    Node head;
-    Map<Integer,Integer> freqMap;
-    public MaxFreqStack() {
-        this.head = null;
-        this.freqMap = new HashMap<>();
+    Map<Integer,LinkedList<Integer>> st;
+    Map<Integer,Integer> map;
+    int maxFreq;
+
+    public MaxFreqStack(){
+        st = new HashMap<>();
+        map = new HashMap<>();
+        maxFreq = 0;
+    }
+    public void push(int val) {
+        int currFreq = map.getOrDefault(val,0);
+        currFreq++;
+        map.put(val,currFreq);
+        if(st.containsKey(currFreq)==false){
+            st.put(currFreq, new LinkedList<Integer>());
+        }
+        st.get(currFreq).addFirst(val);
+        maxFreq = Math.max(maxFreq,currFreq);
     }
 
-    public void push(int val) {
-        Node newNode = new Node(val);
-        newNode.next = this.head;
-        this.head = newNode;
-    }
 
     public int pop() {
-        // keep the frequency of elements into a hashmap
-        Node tempNode = this.head;
-        while(tempNode != null){
-            if(freqMap.containsKey(tempNode.val)){
-                int freq = freqMap.get(tempNode.val);
-                freqMap.put(tempNode.val,freq+1);
-            }else{
-                freqMap.put(tempNode.val, 1);
+            int ans = st.get(maxFreq).removeFirst();
+            int currFreq = map.get(ans);
+            currFreq--;
+            map.put(ans,currFreq);
+            if(st.get(maxFreq).size() == 0){
+                maxFreq--;
             }
-            tempNode = tempNode.next;
-        }
-        // Iterate over the hashmap
-        Set<Integer> keySet = freqMap.keySet();
-        int maxFreq = -1;
-        List<Integer> maxFreqElemList = new ArrayList<>();
-        int maxFreqElem = 0;
-        for(int key:keySet){
-            int val = freqMap.get(key);
-
-            if(val >= maxFreq){
-               maxFreq = val;
-                maxFreqElem = key;
-            }
-        }
-
-        // remove this element with highest frequency
-        // Find element which is closest to top
-        Node topElem = this.head;
-        while(topElem != null){
-            topElem = topElem.next;
-        }
-        freqMap.remove(maxFreqElem);
-        return maxFreqElem;
-    }
+            return ans;
+         }
 
     static void main() {
-        MaxFreqStack mfs = new MaxFreqStack();
-        mfs.push(5);
-        mfs.push(7);
-        mfs.push(5);
-        mfs.push(7);
-        mfs.push(4);
-        mfs.push(5);
-        int val1 = mfs.pop();
-        int val2 = mfs.pop();
-        int val3 = mfs.pop();
-        int val4 = mfs.pop();
-        System.out.println(val1+ " " + val2 + " "+ val3 + " " + val4);
-    }
-}
-class Node{
-    int val;
-    Node next;
 
-    public Node(int val){
-        this.val = val;
-        this.next = null;
     }
 }
+
 
 /**
  * Your FreqStack object will be instantiated and called as such:
