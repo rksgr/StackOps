@@ -41,12 +41,14 @@ class MaxFreqStack {
         if(st.containsKey(currFreq)==false){
             st.put(currFreq, new LinkedList<Integer>());
         }
+        // addFirst since linked list to behave as stack,
         st.get(currFreq).addFirst(val);
         maxFreq = Math.max(maxFreq,currFreq);
     }
 
 
     public int pop() {
+        // remove first since linked list to behave as stack
             int ans = st.get(maxFreq).removeFirst();
             int currFreq = map.get(ans);
             currFreq--;
